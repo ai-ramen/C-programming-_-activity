@@ -1,0 +1,91 @@
+#include <stdio.h>
+#include <stdlib.h>
+#include<string.h>
+#include <math.h>
+
+void toEncryption(char String[],int p,int q);
+void toDecryption(char String[],int p,int q);
+int calcuMod(char a,int e,int n);
+
+int main() {
+	int p,q,n,z,e,d;
+	char String[]="Jollibee";
+	p=7;
+	q=5;
+
+	puts("before");
+	puts(String);
+	
+	puts("encryption");
+	toEncryption(String,p,q);
+	puts(String);
+	
+	
+	puts("decryption");	
+	toDecryption(String,p,q);
+	puts(String);
+	
+}
+
+
+void toEncryption(char String[],int p,int q){
+	int n,z,e,d,x,mod;
+	
+	n=p*q;
+	z=(p-1)*(q-1);
+	
+	for(x=n-1;x>0;x--){
+		if(z%x!=0){
+			e=x;
+		}
+	}
+	
+	for(x=n-1;x>0;x--){
+		if(((e*x)-1)%z==0){
+			d=x;
+		}
+	}
+	for(x=0;String[x]!=0;x++){
+		char a=String[x]-96;
+		mod=calcuMod(a,e,n);
+		String[x]=mod;
+	}
+	
+}
+
+
+void toDecryption(char String[],int p,int q){
+	int n,z,e,d,x,mod;
+	
+	n=p*q;
+	z=(p-1)*(q-1);
+    
+    for(x=n-1;x>0;x--){
+		if(z%x!=0){
+			e=x;
+		}
+	}
+	
+	for(x=n-1;x>0;x--){
+		if(((e*x)-1)%z==0){
+			d=x;
+		}
+	}
+	//printf("e%dd%d",e,d);
+	for(x=0;String[x]!=0;x++){
+		char a=String[x];
+		mod=calcuMod(a,d,n);
+		String[x]=mod+96;
+	}
+	
+}
+
+int calcuMod(char a,int e,int n){
+	int x;
+	long long int ret=1;
+	for(x=0;x<e;x++){
+		ret*=a;
+	}
+	
+	return ret%n;
+}
